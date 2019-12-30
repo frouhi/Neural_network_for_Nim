@@ -7,10 +7,10 @@ The pile that has a value of 1 must change (the order is from left to right).
 The 6 least significant bits tell us what the selected pile should become (in binary).
 The program will interpret the output and print the result in a readable format.
 '''
-with open("biases.txt", "rb") as fp:   # Unpickling
+with open("data/biases.txt", "rb") as fp:   # Unpickling
     biases = pickle.load(fp)
 
-with open("weights.txt", "rb") as fp:   # Unpickling
+with open("data/weights.txt", "rb") as fp:   # Unpickling
     weights = pickle.load(fp)
 
 

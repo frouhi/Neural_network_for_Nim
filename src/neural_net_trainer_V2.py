@@ -208,9 +208,9 @@ for i in range(1,21):
     print("epoc",i,"is done :)")
     test(test_data)
 
-    with open("weights2.txt", "wb") as fp:   #Pickling
+    with open("data/weights2.txt", "wb") as fp:   #Pickling
         pickle.dump(weights, fp)
-    with open("biases2.txt", "wb") as fp:   #Pickling
+    with open("data/biases2.txt", "wb") as fp:   #Pickling
         pickle.dump(biases, fp)
 
 

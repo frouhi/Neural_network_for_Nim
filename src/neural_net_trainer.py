@@ -193,11 +193,11 @@ for i in range(1,21):
     print("epoc",i,"is done :)")
     test(test_data)
 
-    with open("costs.txt","wb") as fp:
+    with open("data/costs.txt","wb") as fp:
         pickle.dump(costs, fp)
-    with open("weights.txt", "wb") as fp:   #Pickling
+    with open("data/weights.txt", "wb") as fp:   #Pickling
         pickle.dump(weights, fp)
-    with open("biases.txt", "wb") as fp:   #Pickling
+    with open("data/biases.txt", "wb") as fp:   #Pickling
         pickle.dump(biases, fp)
 
 
