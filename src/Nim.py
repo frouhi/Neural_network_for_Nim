@@ -6,6 +6,7 @@ The three most significant bits tell us which pile should change.
 The pile that has a value of 1 must change (the order is from left to right).
 The 6 least significant bits tell us what the selected pile should become (in binary).
 The program will interpret the output and print the result in a readable format.
+This program is also capable of a full game with a user.
 '''
 with open("data/biases.txt", "rb") as fp:   # Unpickling
     biases = pickle.load(fp)
@@ -41,7 +42,7 @@ def calc(a,b,c):
     inp = list("{0:06b}".format(a) + "{0:06b}".format(b) + "{0:06b}".format(c))
     for i in range(0, len(inp)):
         inp[i] = float(inp[i])
-    print("NN output",eval(inp))
+    #print("NN output",eval(inp))
     outp = []
     if b ^ c < a:
         outp = list("100" + "{0:06b}".format(b^c))
@@ -49,21 +50,21 @@ def calc(a,b,c):
             outp[i] = float(outp[i])
         # data[inp] = outp
         # keys.append(inp)
-        print("expected output (in binary)",outp)
+        #print("expected output (in binary)",outp)
     elif a ^ c < b:
         outp = list("010" + "{0:06b}".format(a^c))
         for i in range(0, len(outp)):
             outp[i] = float(outp[i])
         # data[inp] = outp
         # keys.append(inp)
-        print("expected output (in binary)",outp)
+        #print("expected output (in binary)",outp)
     elif a ^ b < c:
         outp = list("001" + "{0:06b}".format(a ^ b))
         for i in range(0, len(outp)):
             outp[i] = float(outp[i])
         # data[inp] = outp
         # keys.append(inp)
-        print("expected output (in binary)",outp)
+        #print("expected output (in binary)",outp)
     else:
         print("No solutions found")
     return outp
@@ -81,11 +82,64 @@ def print_result(outp):
         print(res)
 
 
-outp = calc(1,2,6)
-print("Example: pile #1 = 1, pile #2 = 2, pile #3 = 6")
-print_result(outp)
+# This function plays for computers turn
+# a,b,c are piles 1,2 and 3
+def play_nn(outp,a,b,c):
+    if outp is not []:
+        res = int("".join(str(int(x)) for x in outp[3:]), 2)
+        if outp[0] == 1:
+            a = res
+            print("Computer makes pile #1 =",a)
+        elif outp[1] == 1:
+            b = res
+            print("Computer makes pile #2 =", b)
+        elif outp[2] == 1:
+            c = res
+            print("Computer makes pile #3 =", c)
+        return [a,b,c]
+
+
+mode = input("Would you like to play a full game or just find one optimal solution (full/partial)")
 a = int(input("pile #1 as integer (0 to 64)"))
 b = int(input("pile #2 as integer (0 to 64)"))
 c = int(input("pile #3 as integer (0 to 64)"))
-outp = calc(a,b,c)
-print_result(outp)
+if mode == "full":
+    while True:
+        print("piles:", a, b, c)
+        outp = calc(a,b,c)
+        if outp == []:
+            print("you won")
+            break
+        [a,b,c] = play_nn(outp, a, b, c)
+        if a==0 and b==0 and c==0:
+            print("computer won")
+            break
+        print("piles:",a,b,c)
+        pile = 0
+        while pile not in [1,2,3]:
+            pile = int(input("your turn. Choose a pile (1,2,3)"))
+        new_val = int(input("enter the new value for this pile (less than the current value)"))
+        if pile == 1:
+            if new_val>=a:
+                print("error in new pile size")
+                break
+            a = new_val
+        elif pile == 2:
+            if new_val>=b:
+                print("error in new pile size")
+                break
+            b = new_val
+        elif pile == 3:
+            if new_val>=c:
+                print("error in new pile size")
+                break
+            c = new_val
+        if a==0 and b==0 and c==0:
+            print("You won")
+            break
+else:
+    #outp = calc(1,2,6)
+    #print("Example: pile #1 = 1, pile #2 = 2, pile #3 = 6")
+    #print_result(outp)
+    outp = calc(a,b,c)
+    print_result(outp)

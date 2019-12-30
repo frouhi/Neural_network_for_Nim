@@ -4,12 +4,12 @@ This is a project to develop a neural network from scratch without any special p
 
 **What is Nim?**
 
-Nim is a mathematical game with two players and multiple piles of objects. Here we use three piles where each pile has 64 objects at the beginning of the game. Players take turns. Each player can remove any positive number of objects away only from one pile. The player that cannot move looses the game. Note that this happens when no objects are left in any pile. The solution of this game is to calculate the XOR of two piles (in binary). Then, we should take enough objects away from the third pile to convert it to the result of the XOR. In other words, we should make the XOR of three piles equal to 0 at each turn.
+Nim is a mathematical game with two players and multiple piles of objects. Here we use three piles where each pile has up to 64 objects at the beginning of the game. Players take turns. Each player can remove any positive number of objects away only from one pile. The player that cannot move looses the game. Note that this happens when no objects are left in any pile. The solution of this game is to calculate the XOR of two piles (in binary). Then, we should take enough objects away from the third pile to convert it to the result of the XOR. In other words, we should make the XOR of three piles equal to 0 at each turn.
 
 **How does it work?**
 
 The code first generates some data. This data is coming from using XORs and creating all possible combinations of pile numbers and their expected correct result. After we have the data, the code creates its neural network. To do that, it shuffles the data and splits it to two halves (one for testing and one for training). Then we split the training data set into smaller lists which have the size of 2000 and they act as our batches. Then we call our back-propagation function. I have experimented with two back-propagation functions and I have used three activation functions (ReLU, Leaky ReLU, and Sigmoid). My results and analysis and based on the ReLU function. The back-propagation works as expected and after all batches are done for each epoc, we call the test function. The test function gets the average of the costs. The forward propagation works as expected via matrix multiplication.
-Note that I have two files. neural_net_trainer and neural_net_trainer_V2. The first one gives the results in binary and 9 outputs. The second one gives the results in 2 digits. Nim.py allows us to find the optimal solution for a given position using our neural net.
+Note that I have two files. neural_net_trainer and neural_net_trainer_V2. The first one gives the results in binary and 9 outputs. The second one gives the results in 2 digits. Nim.py allows us to find the optimal solution for a given position or play a full game using our neural net.
 
 **Analysis**
 
