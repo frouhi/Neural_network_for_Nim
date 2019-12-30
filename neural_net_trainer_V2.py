@@ -162,7 +162,7 @@ def test(datas):
             correct += 1
         for i,y in enumerate(d[input_size:]):
             cost += (outp[i] - y)**2
-    print("test results: accuracy:",correct/len(datas),"cost:",cost/len(datas))
+    print("test results:","cost =",cost/len(datas))
 
 
 data = []
@@ -195,21 +195,22 @@ test_data = data[len(data)//2:]
 training_chunks = [training_data]
 test(test_data)
 for i in range(1,21):
-    print(weights[0])
+    #print(weights[0])
     print("************ epoc"+str(i)+" ***************")
     num = 0
-    print("progress: ")
+    first = True
     for batch in training_chunks:
-        if ((num/len(training_chunks))*100) % 5 == 0:
-            print("#", end="", flush=True)
+        if first:
+            print("training...")
+            first = False
         num += 1
         train(batch,0.1)
     print("epoc",i,"is done :)")
     test(test_data)
 
-    with open("weights3.txt", "wb") as fp:   #Pickling
+    with open("weights2.txt", "wb") as fp:   #Pickling
         pickle.dump(weights, fp)
-    with open("biases3.txt", "wb") as fp:   #Pickling
+    with open("biases2.txt", "wb") as fp:   #Pickling
         pickle.dump(biases, fp)
 
 
