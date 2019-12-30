@@ -33,6 +33,8 @@ def add_layer(n_in,n_out):
 
     weights.append(matrix)
     biases.append(list)
+
+
 input_size = 18
 output_size = 2
 add_layer(18,50)
@@ -64,6 +66,7 @@ def eval(x):
 
 
 # Back_propagation for training using gradient decent
+# w is weights, b is biases, y is output and a is the list of activations.
 def back_propagation(w, b, y, a):
     b_grad = [[0 for r in range(0,len(b[i]))] for i in range(0,len(b))]
     w_grad = [[[0 for c in range(0,len(w[l][r]))] for r in range(0,len(w[l]))] for l in range(0,len(w))]
@@ -86,10 +89,10 @@ def back_propagation(w, b, y, a):
                 '''w_grad[l][r][c] = a[l][c] * a_grad[l+1][r] * (sigmoid(a[l+1][r])*(1-sigmoid(a[l+1][r])))
                 b_grad[l][r] = a_grad[l+1][r] * (sigmoid(a[l+1][r])*(1-sigmoid(a[l+1][r])))
                 a_grad[l][c] += w[l][r][c] * a_grad[l+1][r] * (1-sigmoid(a[l+1][r]))'''
-    return (w_grad,b_grad)
+    return (w_grad, b_grad)
 
 
-#
+# another approach to back propagation
 # w is weights, b is biases, y is output and a is the list of activations.
 def back_propagation2(w, b, y, a):
     # indexing is as follows: l for layer, r for row and c for column
@@ -105,7 +108,6 @@ def back_propagation2(w, b, y, a):
             temp_g = grad_withRespectTo_a.copy()
             grad_withRespectTo_a = []
             for r1 in range(0,len(w[l])):
-
                 temp = 0
                 for r2 in range(0,len(w[l+1])):
                     if a[l + 2][r2] > 0:
@@ -125,6 +127,9 @@ def back_propagation2(w, b, y, a):
     return (w_grad,b_grad)
 
 
+# this function uses the forward and backward propagations to train the neural net
+# for a specific batch and learning rate. Note that the learning rate remains constant
+# for all batches.
 def train(batch,learning_rate):
     global weights
     global biases
@@ -146,6 +151,8 @@ def train(batch,learning_rate):
     weights = weights_t
 
 
+# This will test the neural net to find current accuracy.
+# Note that the data passed to test should not be used in training.
 def test(datas):
     correct = 0
     cost = 0
@@ -159,6 +166,7 @@ def test(datas):
 
 
 data = []
+# these nested for loops create the training set
 for i in range(0,64):
     for j in range(0,64):
         for k in range(0,64):

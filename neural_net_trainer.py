@@ -5,6 +5,9 @@ costs = []
 weights = []
 biases = []
 
+
+# this function adds layers by adding a matrix of random weights to the
+# list of weight matrices and by adding a vector of zeros for biases.
 def add_layer(n_in,n_out):
     global weights
     global biases
@@ -23,14 +26,14 @@ def add_layer(n_in,n_out):
 input_size = 18
 output_size = 9
 add_layer(18,100)
-#add_layer(100,100)
 add_layer(100,50)
 add_layer(50,50)
 add_layer(50,25)
 add_layer(25,9)
+
+
+# forward propagation to evaluate the neural network
 def forward_propagation(x):
-    #global weights
-    #global biases
     activations = [x]
     inp = x.copy()
     for l in range(0,len(weights)):
@@ -42,14 +45,17 @@ def forward_propagation(x):
             outp.append(max(0,z))
         activations.append(outp.copy())
         inp = outp.copy()
-    #print(activations[len(activations)-1])
     return activations
 
+
+# The output is the last column of the matrix returned by forward_propagation()
 def eval(x):
     activations = forward_propagation(x)
     return activations[len(activations)-1]
 
 
+# Back_propagation for training using gradient decent
+# w is weights, b is biases, y is output and a is the list of activations.
 def back_propagation(w, b, y, a):
     b_grad = [[0 for r in range(0,len(b[i]))] for i in range(0,len(b))]
     w_grad = [[[0 for c in range(0,len(w[l][r]))] for r in range(0,len(w[l]))] for l in range(0,len(w))]
@@ -66,6 +72,9 @@ def back_propagation(w, b, y, a):
                     a_grad[l][c] += w[l][r][c] * a_grad[l+1][r]
 
     return (w_grad,b_grad)
+
+
+# another approach to back propagation
 # w is weights, b is biases, y is output and a is the list of activations.
 def back_propagation2(w, b, y, a):
     # indexing is as follows: l for layer, r for row and c for column
@@ -84,12 +93,10 @@ def back_propagation2(w, b, y, a):
 
                 temp = 0
                 for r2 in range(0,len(w[l+1])):
-                    #############################
                     if a[l + 2][r2] > 0:
                         grad_a_withRespectTo_z = 1
                     else:
                         grad_a_withRespectTo_z = 0
-                    #############################
                     temp += (w[l+1][r2][r1] * grad_a_withRespectTo_z * temp_g[r2])
                 grad_withRespectTo_a.append(temp)
 
@@ -97,7 +104,6 @@ def back_propagation2(w, b, y, a):
         for r in range(0,len(w[l])):
             if a[l+1][r]>0:
                 grad_a_withRespectTo_z = 1
-                #print("here")
             else:
                 grad_a_withRespectTo_z = 0
             for c in range(0,len(w[l][r])):
@@ -107,7 +113,8 @@ def back_propagation2(w, b, y, a):
     return (w_grad,b_grad)
 
 
-
+# This will test the neural net to find current accuracy.
+# Note that the data passed to test should not be used in training.
 def test(datas):
     correct = 0
     cost = 0
@@ -121,6 +128,10 @@ def test(datas):
     print(len(datas))
     print("test results: accuracy:",correct/len(datas),"cost:",cost/len(datas))
 
+
+# this function uses the forward and backward propagations to train the neural net
+# for a specific batch and learning rate. Note that the learning rate remains constant
+# for all batches.
 def train(batch,learning_rate):
     global weights
     global biases
@@ -146,20 +157,10 @@ def train(batch,learning_rate):
     weights = weights_t
 
 
-
-
-
-
-#data = {}
 data = []
 
-'''for txt in ["000101000110001001011011011","010010100101110010110110101","111011001010110010001011010"]:
-    for i in range(0,1000):
-        inp = list(txt)
-        for r in range(0, len(inp)):
-            inp[r] = float(inp[r])
-        data.append(inp)
-random.shuffle(data)'''
+
+# these nested for loops create the training set
 for i in range(0,64):
     for j in range(0,64):
         for k in range(0,64):
@@ -183,9 +184,6 @@ for i in range(0,64):
                 data.append(inp + outp)
 random.shuffle(data)
 data = data[:len(data)//20]
-
-
-
 training_data = data[:len(data)//2]
 test_data = data[len(data)//2:]
 
@@ -210,7 +208,6 @@ for i in range(1,21):
         pickle.dump(weights, fp)
     with open("biases2.txt", "wb") as fp:   #Pickling
         pickle.dump(biases, fp)
-#with open("test.txt", "rb") as fp:   # Unpickling
-#    b = pickle.load(fp)
+
 
 
