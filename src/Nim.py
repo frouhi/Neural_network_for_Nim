@@ -8,10 +8,10 @@ The 6 least significant bits tell us what the selected pile should become (in bi
 The program will interpret the output and print the result in a readable format.
 This program is also capable of a full game with a user.
 '''
-with open("data/biases.txt", "rb") as fp:   # Unpickling
+with open("../data/biases.txt", "rb") as fp:   # Unpickling
     biases = pickle.load(fp)
 
-with open("data/weights.txt", "rb") as fp:   # Unpickling
+with open("../data/weights.txt", "rb") as fp:   # Unpickling
     weights = pickle.load(fp)
 
 
