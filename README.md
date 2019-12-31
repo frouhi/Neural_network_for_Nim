@@ -1,3 +1,8 @@
+## Neural Network Implementation for Solving Nim ##
+
+**Author**
+* Farhang Rouhi
+
 **Introduction**
 
 This is a project to develop a neural network from scratch without any special packages. The objective of this project is to understand and practice fundamentals of neural networks, especially mathematical foundations such as gradient descent. We develop the neural net to solve the game of Nim because finding the correct solution to Nim is simple, but the game itself is relatively complex.
@@ -17,6 +22,13 @@ running the neural_net_trainer on multiple epocs gives us the following graph of
 _Note that the plot is generated using R_
 
 ![plot of cost/epoc](plot.png)
+
+**How to Play The Game?**
+
+You can play the game against the trained neural network. First, run Nim.py script and enter "full" to play a full game.
+Then, specify sizes of three piles. After that, the game starts.
+When it is your turn, select a pile and the new size of that pile. Note that the new size has to be smaller than the original size.
+The goal is to make all piles zero. The player who makes all of the piles empty wins the game.
 
 **Important Note:**
 
